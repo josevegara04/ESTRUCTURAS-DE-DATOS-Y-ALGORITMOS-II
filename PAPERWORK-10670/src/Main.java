@@ -12,8 +12,6 @@ public class Main
         int costo_A; 
         int costo_B; 
         int costo_minimo = 0;
-        int precio_1; 
-        int precio_2; 
     
         
         Scanner scan = new Scanner(System.in);
@@ -54,45 +52,37 @@ public class Main
                         //Se hace el loop mientras que N sea mayor a M
                         while(N_copia > M)
                         {
-                            precio_1 = 0;
-                            precio_2 = 0;
-                            int N1 = N_copia;
-                            int N2 = N_copia;
-                            
-                            /*Se hace la reducción por mitad si el resultado es mayor a M 
-                            para probar con con el costoB*/
-                            if(N_copia/2 >= M)
+                            if(N_copia/2 > M)
                             {
-                                N1 = N1/2; 
-                                precio_1 += costo_B; 
-                                
-                                /*También se prueba con el costo A para comparar precios*/
-                                while(N2 > N1)
+                                if(costo_B < N_copia - (N_copia/2)) //Aqui lo que hago es tomar una decision local: sale mas optimo por el costo_B o por el costo_A
                                 {
-                                    N2 -= 1;
-                                    precio_2 += costo_A; 
-                                } 
-                            }
-                            else
-                            {
-                                while(N2 > M)
+                                    N_copia = N_copia/2;
+                                    costo_minimo += costo_B;
+                                }
+                                else if(costo_B == N_copia - (N_copia/2) && costo_B < costo_A)
                                 {
-                                    N2 -= 1;
-                                    precio_2 += costo_A;
-                                    precio_1 += precio_2;
+                                    N_copia = N_copia/2;
+                                    costo_minimo += costo_B;
+                                }
+                                else if(costo_B == N_copia - (N_copia/2) && (costo_B > costo_A || costo_B == costo_A))
+                                {
+                                    N_copia = N_copia/2;
+                                    costo_minimo += costo_A;
+                                }
+                                else if(costo_B > N_copia - (N_copia/2))
+                                {
+                                    costo_minimo += costo_A*(N_copia/2);
+                                    N_copia = N_copia/2;
                                 }
                             }
-                            
-                            //Se compara con cual costo fue más barato y se actualiza el precio
-                            if(precio_1 > precio_2)
-                            {
-                                costo_minimo += precio_2;
-                            }
                             else
                             {
-                                costo_minimo += precio_1; 
+                                while(N_copia != M)
+                                {
+                                    N_copia -= 1;
+                                    costo_minimo += costo_A;
+                                }
                             }
-                            N_copia = N2; 
                         }
                         
                         //Se agrega la información a un objeto tipo Agencia y se guarda en la lista agencias
