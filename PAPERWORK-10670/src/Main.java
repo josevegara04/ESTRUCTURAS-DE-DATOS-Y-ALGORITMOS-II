@@ -12,6 +12,7 @@ public class Main
         int costo_A; 
         int costo_B; 
         int costo_minimo = 0;
+        int precio = 0;
     
         
         Scanner scan = new Scanner(System.in);
@@ -49,30 +50,33 @@ public class Main
                         costo_A = Integer.parseInt(costos[0].trim());
                         costo_B = Integer.parseInt(costos[1].trim());
                         
-                        //Se hace el loop mientras que N sea mayor a M
+                        //Se hace el loop mientras que N_copia sea mayor a M
                         while(N_copia > M)
                         {
-                            if(N_copia/2 > M)
+                            int half = N_copia/2;
+                            if(N_copia % 2 == 0)
                             {
-                                if(costo_B < N_copia - (N_copia/2)) //Aqui lo que hago es tomar una decision local: sale mas optimo por el costo_B o por el costo_A
+                                precio = costo_A * (N_copia/2);
+                            }
+                            else
+                            {
+                                precio = costo_A * (N_copia/2 + 1);
+                            }
+                            if(N_copia/2 >= M)
+                            {
+                                //Aqui se toma una decision local: sale mas optimo por el costo_A o por el costo_B
+                                if(costo_A > costo_B || precio > costo_B || costo_A == costo_B) 
                                 {
-                                    N_copia = N_copia/2;
+                                    N_copia /= 2;
                                     costo_minimo += costo_B;
-                                }
-                                else if(costo_B == N_copia - (N_copia/2) && costo_B < costo_A)
+                                }          
+                                else                     
                                 {
-                                    N_copia = N_copia/2;
-                                    costo_minimo += costo_B;
-                                }
-                                else if(costo_B == N_copia - (N_copia/2) && (costo_B > costo_A || costo_B == costo_A))
-                                {
-                                    N_copia = N_copia/2;
-                                    costo_minimo += costo_A;
-                                }
-                                else if(costo_B > N_copia - (N_copia/2))
-                                {
-                                    costo_minimo += costo_A*(N_copia/2);
-                                    N_copia = N_copia/2;
+                                    while(N_copia > half)
+                                    {
+                                        costo_minimo += costo_A;
+                                        N_copia -= 1;
+                                    }
                                 }
                             }
                             else
@@ -84,7 +88,6 @@ public class Main
                                 }
                             }
                         }
-                        
                         //Se agrega la información a un objeto tipo Agencia y se guarda en la lista agencias
                         Agencia agencia = new Agencia(nombre_agencia, costo_minimo);
                         agencias.add(agencia);
@@ -126,11 +129,10 @@ public class Main
             for(int j = 0; j < agencias.size(); j++)
             {
                 System.out.println(agencias.get(j).toString());
-                //Cambio
+                System.out.flush();
             }
         }
         scan.close();
-        
     }
 }
 
