@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Se crea la clase Agencia con sus respectivos atributos y métodos
 class Agencia
 {
     private:
@@ -43,9 +44,11 @@ class Agencia
         }
 };
 
+//Función main
 int main()
 {
    
+   //Se declaran las variables a utilizar
     int T;
     int N;
     int M; 
@@ -59,11 +62,15 @@ int main()
     //Se lee el número de casos a realizar
     cin >> T;
 
+    //Se crea un ciclo para realizar los casos
     for(int i = 1; i <= T; i++)
     {
+
+        //Se crea la lista que almacenará las agencias
         vector<Agencia> agencias;
         bool cen;
 
+        //Se leen los datos de cada caso
         cin >> N;
         int N_copia;
         cin >> M;
@@ -71,6 +78,8 @@ int main()
         string blanco;
         getline(cin, blanco);
 
+
+        //Se crea un ciclo administrar los datos de cada agencia
         for(int j = 0; j < L; j++)
         {
             N_copia = N;
@@ -100,6 +109,7 @@ int main()
                     costo_A = stoi(costos[0]);
                     costo_B = stoi(costos[1]);
 
+                    //Se calcula el costo mínimo de cada agencia
                     while(N_copia > M)
                     {
                         int half = N_copia/2;
@@ -139,14 +149,15 @@ int main()
                         }
                     }
 
+                    //Se crea un objeto de la clase Agencia y se agrega a la lista
                     Agencia agencia(nombre_agencia, costo_minimo);
                     agencias.push_back(agencia);
                 }
             }
-
             costo_minimo = 0;
         }
 
+        //Se ordena la lista de agencias con el método de ordenamiento Bubble Sort
         for(int j = 0; j < agencias.size(); j++)
         {
             cen = false;
@@ -174,6 +185,7 @@ int main()
             }
         }
 
+        //Se imprime el resultado de cada caso
         cout << "Case " << i << endl;
         for(int j = 0; j < agencias.size(); j++)
         {
